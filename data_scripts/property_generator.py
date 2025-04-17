@@ -32,6 +32,7 @@ def property_generator():
                 else:
                     size_sq = random.randint(3200, 4000)
 
+
                 number = line["properties"]['number']
                 street = line["properties"]['street']
                 city = line["properties"]['city']
