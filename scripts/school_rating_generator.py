@@ -32,7 +32,10 @@ def school_rating_info_generator():
 
                 school_rating_info = [number, street, city, postcode, high_school, middle_school, elementary_school]
 
-                writer.writerow(school_rating_info)
+                if not any(item == "" for item in school_rating_info):
+                    writer.writerow(school_rating_info)
+                else:
+                    continue
         address_file.close()
     school_rating_info_file.close()
 

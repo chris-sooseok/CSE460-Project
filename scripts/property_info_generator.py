@@ -7,7 +7,7 @@ import re
 def property_info_generator():
     filename = "../data/property_data.csv"
     file_exists = os.path.exists(filename)
-    header = ["number", "street", "city", "postcode", "price", "size_sq", "year", "type_house" ]
+    header = ["number", "street", "city", "postcode", "price", "size_sq", "year", "property_type" ]
 
     with open(filename, mode="w", newline="") as property_info_file:
 
@@ -36,12 +36,15 @@ def property_info_generator():
                 city = line["properties"]['city']
                 postcode = line["properties"]['postcode']
                 postcode = re.sub(r"\s+", " ", postcode).strip()
-                type_house = random.choice(['single house', 'apartment', 'condo', 'farm house', 'cabin'])
+                property_type = random.choice(['single house', 'apartment', 'condo', 'farm house', 'cabin'])
                 year = random.randint(1900, 2025)
 
-                property_info = [number, street, city, postcode, price, size_sq, year, type_house]
+                property_info = [number, street, city, postcode, price, size_sq, year, property_type]
 
-                writer.writerow(property_info)
+                if not any(item == "" for item in property_info):
+                    writer.writerow(property_info)
+                else:
+                    continue
         address_file.close()
     property_info_file.close()
 
