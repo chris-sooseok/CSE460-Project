@@ -26,7 +26,11 @@ def address_generator():
 
                 address_info = [number, street, city, postcode]
 
-                writer.writerow(address_info)
+                if not any(item == "" for item in address_info):
+                    writer.writerow(address_info)
+                else:
+                    continue
+
         address_file.close()
     address_data_file.close()
 

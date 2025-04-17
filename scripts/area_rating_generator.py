@@ -42,7 +42,11 @@ def area_rating_info_generator():
 
                 area_rating_info = [number, street, city, postcode, transportation, grocery, park, quiet, restaurant]
 
-                writer.writerow(area_rating_info)
+                if not any(item == "" for item in area_rating_info):
+                    writer.writerow(area_rating_info)
+                else:
+                    continue
+
         address_file.close()
     area_rating_info_file.close()
 
