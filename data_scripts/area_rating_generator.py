@@ -16,16 +16,15 @@ def area_rating_generator():
         if not file_exists:
             writer.writerow(header)
 
-        with open("../data/us_address_data/ny/erie-addresses-county.geojson") as address_file:
-            for line in address_file:
-                line = json.loads(line)
+        with open("../data/address.csv") as address_file:
+            reader = csv.reader(address_file)
+            next(reader)
+            for line in reader:
 
-                number = line["properties"]['number']
-                street = line["properties"]['street']
-                city = line["properties"]['city']
-                postcode = line["properties"]['postcode']
-                postcode = re.sub(r"\s+", " ", postcode).strip()
-
+                number = line[0]
+                street = line[1]
+                city = line[2]
+                postcode = line[3]
                 transportation = random.randint(1, 10)
                 if transportation >= 7:
                     grocery = random.randint(7, 10)
@@ -42,10 +41,7 @@ def area_rating_generator():
 
                 data = [number, street, city, postcode, transportation, grocery, park, quiet, restaurant]
 
-                if not any(item == "" for item in data):
-                    writer.writerow(data)
-                else:
-                    continue
+                writer.writerow(data)
 
         address_file.close()
     area_rating_info_file.close()

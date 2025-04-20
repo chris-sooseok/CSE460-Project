@@ -16,26 +16,22 @@ def school_rating_generator():
         if not file_exists:
             writer.writerow(header)
 
-        with open("../data/us_address_data/ny/erie-addresses-county.geojson") as address_file:
-            for line in address_file:
-                line = json.loads(line)
+        with open("../data/address.csv") as address_file:
+            reader = csv.reader(address_file)
+            next(reader)
+            for line in reader:
 
-                number = line["properties"]['number']
-                street = line["properties"]['street']
-                city = line["properties"]['city']
-                zip_code = line["properties"]['postcode']
-                zip_code = re.sub(r"\s+", " ", zip_code).strip()
-
+                number = line[0]
+                street = line[1]
+                city = line[2]
+                postcode = line[3]
                 high_school = random.randint(1, 10)
                 middle_school = random.randint(1, 10)
                 elementary_school = random.randint(1, 10)
 
-                data = [number, street, city, zip_code, high_school, middle_school, elementary_school]
+                data = [number, street, city, postcode, high_school, middle_school, elementary_school]
+                writer.writerow(data)
 
-                if not any(item == "" for item in data):
-                    writer.writerow(data)
-                else:
-                    continue
         address_file.close()
     school_rating_info_file.close()
 

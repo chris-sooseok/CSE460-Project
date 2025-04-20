@@ -17,9 +17,10 @@ def property_generator():
         if not file_exists:
             writer.writerow(header)
 
-        with open("../data/us_address_data/ny/erie-addresses-county.geojson") as address_file:
-            for line in address_file:
-                line = json.loads(line)
+        with open("../data/address.csv") as address_file:
+            reader = csv.reader(address_file)
+            next(reader)
+            for line in reader:
 
                 price = random.randint(100, 500) * 1000
 
@@ -33,20 +34,16 @@ def property_generator():
                     size_sq = random.randint(3200, 4000)
 
 
-                number = line["properties"]['number']
-                street = line["properties"]['street']
-                city = line["properties"]['city']
-                postcode = line["properties"]['postcode']
-                postcode = re.sub(r"\s+", " ", postcode).strip()
+                number = line[0]
+                street = line[1]
+                city = line[2]
+                postcode = line[3]
                 property_type = random.choice(['single house', 'apartment', 'condo', 'farm house', 'cabin'])
                 year = random.randint(1900, 2025)
 
                 data = [number, street, city, postcode, price, size_sq, year, property_type]
+                writer.writerow(data)
 
-                if not any(item == "" for item in data):
-                    writer.writerow(data)
-                else:
-                    continue
         address_file.close()
     property_info_file.close()
 
