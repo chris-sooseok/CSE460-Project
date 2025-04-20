@@ -22,13 +22,16 @@ def address_generator():
                 number = line["properties"]['number']
                 street = line["properties"]['street']
                 city = line["properties"]['city']
-                postcode = line["properties"]['postcode']
+                postcode = line["properties"]['postcode'].split(" ")[0].strip()
 
-                data = [number, street, city, postcode]
+                try:
+                    if 14001 <= int(postcode) and 14280 >= int(postcode):
 
-                if not any(item == "" for item in data):
-                    writer.writerow(data)
-                else:
+                        data = [number, street, city, postcode]
+
+                        if not any(item == "" for item in data):
+                            writer.writerow(data)
+                except ValueError:
                     continue
 
         address_file.close()
