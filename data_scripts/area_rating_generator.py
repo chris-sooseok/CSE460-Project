@@ -1,8 +1,15 @@
-import json
 import random
 import csv
 import os
-import re
+
+"""
+1. Read address data from address.csv
+2. Create random area ratings for "transportation", "grocery", "park", "quiet", "restaurant" in scale of 10
+3. Store them into area_rating.csv file
+
+Notes:
+quiet and grocery ratings are dependent on transportation rating
+"""
 
 def area_rating_generator():
     filename = "../data/area_rating.csv"
