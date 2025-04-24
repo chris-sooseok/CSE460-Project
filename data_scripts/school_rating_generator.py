@@ -1,8 +1,15 @@
-import json
 import random
 import csv
 import os
-import re
+
+"""
+1. Read address data from address.csv
+2. Create random school ratings for "high_school", "middle_school", "elementary_school" in scale of 10
+3. Store them into school_rating.csv file
+
+Notes:
+property types are 'single house', 'apartment', 'condo', 'farm house', 'cabin'
+"""
 
 def school_rating_generator():
     filename = "../data/school_rating.csv"

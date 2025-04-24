@@ -1,9 +1,15 @@
-import json
 import random
 import csv
 import os
-import re
 
+"""
+1. Read address data from address.csv
+2. Create random price, size_sq, year, and property_type data
+3. Store them into property.csv file
+
+Notes:
+property types are 'single house', 'apartment', 'condo', 'farm house', 'cabin'
+"""
 
 def property_generator():
     filename = "../data/property.csv"
@@ -32,7 +38,6 @@ def property_generator():
                     size_sq = random.randint(2400, 3200)
                 else:
                     size_sq = random.randint(3200, 4000)
-
 
                 number = line[0]
                 street = line[1]

@@ -2,12 +2,20 @@ import random
 import csv
 import os
 
+"""
+1. Read total population data from age_population.csv
+2. For each education level, distribute total population
+
+Notes:
+Age scope [0,10], and [11,20] are excluded since they are too young
+"""
+
 def education_population_generator():
     filename = "../data/education_population.csv"
     file_exists = os.path.exists(filename)
-    header = ["zip_code",
-                        "pop_less_than_high_school", "pop_high_school_graduate_or_higher",
-                        "pop_bachelor_degree_or_higher", "pop_graduate_degree_or_higher"]
+    header = ["zip_code", "total_population",
+                        "pop_less_than_high_school", "pop_higher_than_high_school",
+                        "pop_higher_than_bachelor_degree", "pop_higher_than_doctorate_degree"]
 
     with open(filename, mode="w", newline="") as address_data_file:
 
@@ -16,29 +24,26 @@ def education_population_generator():
         if not file_exists:
             writer.writerow(header)
 
-        zip_code_population = {}
-
-        with open("../data/gender_population.csv") as file:
+        with open("../data/age_population.csv") as file:
             reader = csv.reader(file)
             next(reader)
+
             for row in reader:
-                if row[0] in zip_code_population:
-                    zip_code_population[row[0]] += int(row[3])
-                else:
-                    zip_code_population[row[0]] = int(row[3])
+                zip_code = row[0]
+                total_population = int(row[1])
+                excluded_population = total_population - int(row[2])
+                excluded_population -= int(row[3])
 
-            print(zip_code_population)
+                # randomly distribute the population highest to less_than_high_school to lowest to graduate
+                numbers = divide_number_randomly(excluded_population, 4)
 
-            for zip_code, population in zip_code_population.items():
-                numbers = divide_number_randomly(population, 4)
                 less_than_high_school = numbers[0]
                 higher_than_high_school = numbers[1]
                 bachelor_degree = numbers[2]
-                graduate_degree = numbers[3]
+                doctorate_degree = numbers[3]
 
-                data = [zip_code, less_than_high_school, higher_than_high_school, bachelor_degree, graduate_degree]
+                data = [zip_code, excluded_population, less_than_high_school, higher_than_high_school, bachelor_degree, doctorate_degree]
                 writer.writerow(data)
-
 
         file.close()
     address_data_file.close()

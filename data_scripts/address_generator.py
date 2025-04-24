@@ -3,10 +3,16 @@ import random
 import csv
 import os
 
+"""
+1. Read number, street, city, postcode from erie-addresses-county.geojson
+2. Only take postcode between 14001 and 14280 which are erie county
+3. Store them into address.csv file
+"""
+
 def address_generator():
     filename = "../data/address.csv"
     file_exists = os.path.exists(filename)
-    header = ["number", "street", "city", "zip_code"]
+    header = ["number", "street", "city", "zip_code", "state"]
 
     with open(filename, mode="w", newline="") as address_data_file:
 
@@ -27,7 +33,7 @@ def address_generator():
                 try:
                     if 14001 <= int(postcode) and 14280 >= int(postcode):
 
-                        data = [number, street, city, postcode]
+                        data = [number, street, city, postcode, "NY"]
 
                         if not any(item == "" for item in data):
                             writer.writerow(data)
