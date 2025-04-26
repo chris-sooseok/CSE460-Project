@@ -55,7 +55,8 @@ CREATE TABLE IF NOT EXISTS property (
 	year INTEGER,
 	property_type VARCHAR(20),
 	PRIMARY KEY (number, street, city, zip_code),
-	FOREIGN KEY (number, street, city, zip_code) REFERENCES address(number, street, city, zip_code) ON DELETE CASCADE
+	FOREIGN KEY (number, street, city, zip_code) REFERENCES address(number, street, city, zip_code) ON DELETE CASCADE,
+    CHECK (property_type IN ('single house', 'apartment', 'condo', 'farm house', 'cabin'))
 );
 
 CREATE TABLE IF NOT EXISTS area_rating (
@@ -63,11 +64,11 @@ CREATE TABLE IF NOT EXISTS area_rating (
 	street VARCHAR(50),
 	city VARCHAR(20),
 	zip_code VARCHAR(10),
-	transportation INTEGER,
-	grocery INTEGER,
-	park INTEGER,
-	quiet INTEGER,
-	restaurant INTEGER,
+	transportation INTEGER CHECK (high_school BETWEEN 1 AND 10),
+	grocery INTEGER CHECK (high_school BETWEEN 1 AND 10),
+	park INTEGER CHECK (high_school BETWEEN 1 AND 10),
+	quiet INTEGER CHECK (high_school BETWEEN 1 AND 10),
+	restaurant INTEGER CHECK (high_school BETWEEN 1 AND 10),
 	PRIMARY KEY (number, street, city, zip_code),
 	FOREIGN KEY (number, street, city, zip_code) REFERENCES property(number, street, city, zip_code) ON DELETE CASCADE
 );
@@ -77,9 +78,9 @@ CREATE TABLE IF NOT EXISTS school_rating (
 	street VARCHAR(50),
 	city VARCHAR(20),
 	zip_code VARCHAR(10),
-	high_school INTEGER,
-	middle_school INTEGER,
-	elementary_school INTEGER,
+	high_school INTEGER CHECK (high_school BETWEEN 1 AND 10),
+	middle_school INTEGER CHECK (high_school BETWEEN 1 AND 10),
+	elementary_school INTEGER CHECK (high_school BETWEEN 1 AND 10),
 	PRIMARY KEY (number, street, city, zip_code),
 	FOREIGN KEY (number, street, city, zip_code) REFERENCES property(number, street, city, zip_code) ON DELETE CASCADE
 );
@@ -95,46 +96,4 @@ CREATE TABLE IF NOT EXISTS household_income (
     FOREIGN KEY (number, street, city, zip_code) REFERENCES property(number, street, city, zip_code) ON DELETE CASCADE
 );
 
--- CREATE TABLE IF NOT EXISTS address_education_population (
---     number INTEGER,
---     street VARCHAR(50),
---     city VARCHAR(20),
---     zip_code VARCHAR(10),
---     PRIMARY KEY (number, street, city, zip_code),
---     FOREIGN KEY (number, street, city, zip_code) REFERENCES address(number, street, city, zip_code) ON DELETE CASCADE,
---     FOREIGN KEY (zip_code) REFERENCES education_population(zip_code) ON DELETE CASCADE
--- );
---
---
--- CREATE TABLE IF NOT EXISTS address_gender_population (
---     number INTEGER,
---     street VARCHAR(50),
---     city VARCHAR(20),
---     zip_code VARCHAR(10),
---     gender gender_type,
---     age_scope int4range,
---     PRIMARY KEY (number, street, city, zip_code, gender, age_scope),
---     FOREIGN KEY (number, street, city, zip_code) REFERENCES address(number, street, city, zip_code) ON DELETE CASCADE,
---     FOREIGN KEY (zip_code, gender, age_scope) REFERENCES gender_population(zip_code, gender, age_scope) ON DELETE CASCADE
--- );
--- CREATE TABLE IF NOT EXISTS income (
--- 	number INTEGER,
--- 	street VARCHAR(50),
--- 	city VARCHAR(20),
--- 	zip_code VARCHAR(10),
--- 	household_income INT,
--- 	PRIMARY KEY (zip_code),
--- 	FOREIGN KEY (zip_code) REFERENCES address(zip_code) ON DELETE CASCADE
--- );
---
---
--- CREATE TABLE IF NOT EXISTS crime_rate (
--- 	number INTEGER,
--- 	street VARCHAR(50),
--- 	city VARCHAR(20),
--- 	zip_code VARCHAR(10),
--- 	score FLOAT CHECK (score >= 0 AND score <= 1),
--- 	PRIMARY KEY (zip_code, score),
--- 	FOREIGN KEY (zip_code) REFERENCES address(zip_code) ON DELETE CASCADE
--- );
 
