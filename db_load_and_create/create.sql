@@ -64,11 +64,11 @@ CREATE TABLE IF NOT EXISTS area_rating (
 	street VARCHAR(50),
 	city VARCHAR(20),
 	zip_code VARCHAR(10),
-	transportation INTEGER CHECK (high_school BETWEEN 1 AND 10),
-	grocery INTEGER CHECK (high_school BETWEEN 1 AND 10),
-	park INTEGER CHECK (high_school BETWEEN 1 AND 10),
-	quiet INTEGER CHECK (high_school BETWEEN 1 AND 10),
-	restaurant INTEGER CHECK (high_school BETWEEN 1 AND 10),
+	transportation INTEGER CHECK (transportation BETWEEN 1 AND 10),
+	grocery INTEGER CHECK (grocery BETWEEN 1 AND 10),
+	park INTEGER CHECK (park BETWEEN 1 AND 10),
+	quiet INTEGER CHECK (quiet BETWEEN 1 AND 10),
+	restaurant INTEGER CHECK (restaurant BETWEEN 1 AND 10),
 	PRIMARY KEY (number, street, city, zip_code),
 	FOREIGN KEY (number, street, city, zip_code) REFERENCES property(number, street, city, zip_code) ON DELETE CASCADE
 );
@@ -79,8 +79,8 @@ CREATE TABLE IF NOT EXISTS school_rating (
 	city VARCHAR(20),
 	zip_code VARCHAR(10),
 	high_school INTEGER CHECK (high_school BETWEEN 1 AND 10),
-	middle_school INTEGER CHECK (high_school BETWEEN 1 AND 10),
-	elementary_school INTEGER CHECK (high_school BETWEEN 1 AND 10),
+	middle_school INTEGER CHECK (middle_school BETWEEN 1 AND 10),
+	elementary_school INTEGER CHECK (elementary_school BETWEEN 1 AND 10),
 	PRIMARY KEY (number, street, city, zip_code),
 	FOREIGN KEY (number, street, city, zip_code) REFERENCES property(number, street, city, zip_code) ON DELETE CASCADE
 );

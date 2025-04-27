@@ -1,3 +1,2 @@
-
--- Property Insert
-INSERT INTO property VALUES (99, 'MAIN ST', 'Cheektowaga', '14001', 250000, 1800, 2005, 'house');
+-- Property Delete
+DELETE FROM property WHERE number = 99 AND street = 'MAIN ST' AND city = 'Cheektowaga' AND zip_code = '14001';
