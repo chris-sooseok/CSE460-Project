@@ -1,29 +1,30 @@
+-- If any tuple in education_population relation contains null for any field, return that zip code
 
---Given price range and zip code, find property information based on them
+CREATE OR REPLACE FUNCTION find_zip_codes_with_nulls()
+RETURNS TABLE(zip_code VARCHAR) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT ep.zip_code
+    FROM education_population ep
+    WHERE
+        ep.total_population IS NULL OR
+        ep.pop_less_than_high_school IS NULL OR
+        ep.pop_higher_than_high_school IS NULL OR
+        ep.pop_higher_than_bachelor_degree IS NULL OR
+        ep.pop_higher_than_doctorate_degree IS NULL;
+END;
+$$ LANGUAGE plpgsql;
 
-
-CREATE OR REPLACE PROCEDURE find_properties_in_price_range(
-    p_min_price INTEGER,
-    p_max_price INTEGER,
-    p_zip_code VARCHAR(10)
-)
+CREATE OR REPLACE PROCEDURE show_zip_codes_with_nulls()
 LANGUAGE plpgsql
 AS $$
 DECLARE
     rec RECORD;
 BEGIN
-    FOR rec IN
-        SELECT number, street, city, zip_code, price, size_sq, year, property_type
-        FROM property
-        WHERE price BETWEEN p_min_price AND p_max_price
-          AND zip_code = p_zip_code
-    LOOP
-        RAISE NOTICE 'Property => Number: %, Street: %, City: %, Zip: %, Price: %, Size: %, Year: %, Type: %',
-            rec.number, rec.street, rec.city, rec.zip_code,
-            rec.price, rec.size_sq, rec.year, rec.property_type;
+    FOR rec IN SELECT * FROM find_zip_codes_with_nulls() LOOP
+        RAISE NOTICE 'Zip code with nulls: %', rec.zip_code;
     END LOOP;
 END;
 $$;
 
-CALL find_properties_in_price_range(200000, 500000, '14001');
-
+CALL show_zip_codes_with_nulls();

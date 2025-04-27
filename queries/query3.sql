@@ -1,2 +1,6 @@
--- Property Delete
-DELETE FROM property WHERE number = 99 AND street = 'MAIN ST' AND city = 'Cheektowaga' AND zip_code = '14001';
+
+
+-- properties sorted by price (lowest to highest) - ascending
+SELECT number, street, city, zip_code, price
+FROM property
+ORDER BY price ASC; 

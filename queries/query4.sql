@@ -1,6 +1,4 @@
-
-
--- properties sorted by price (lowest to highest) - ascending
-SELECT number, street, city, zip_code, price
-FROM property
-ORDER BY price ASC; 
+-- average income by zip code (GROUP BY)
+SELECT zip_code, AVG(income) AS avg_income
+FROM household_income
+GROUP BY zip_code;

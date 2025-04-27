@@ -1,8 +1,8 @@
-–- count population by gender in a zip code (GROUP BY) & Union ALL
-SELECT 'male' AS gender, male AS total_population
-FROM gender_population
-WHERE zip_code = '14001'
-UNION ALL
-SELECT 'female' AS gender, female AS total_population
-FROM gender_population
-WHERE zip_code = '14001';
+-- find properties in zip codes with income above average (subquery)
+SELECT * FROM property
+WHERE zip_code IN (
+   	 SELECT zip_code FROM household_income
+    	WHERE income > (
+       	 	SELECT AVG(income) FROM household_income
+       	 	)
+   	 )

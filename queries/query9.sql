@@ -1,30 +1,23 @@
--- If any tuple in education_population relation contains null for any field, return that zip code
-
-CREATE OR REPLACE FUNCTION find_zip_codes_with_nulls()
-RETURNS TABLE(zip_code VARCHAR) AS $$
-BEGIN
-    RETURN QUERY
-    SELECT ep.zip_code
-    FROM education_population ep
-    WHERE
-        ep.total_population IS NULL OR
-        ep.pop_less_than_high_school IS NULL OR
-        ep.pop_higher_than_high_school IS NULL OR
-        ep.pop_higher_than_bachelor_degree IS NULL OR
-        ep.pop_higher_than_doctorate_degree IS NULL;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE PROCEDURE show_zip_codes_with_nulls()
+-- Deleting a specific property based on 4 input(number, street, city and zipcode)
+CREATE OR REPLACE PROCEDURE delete_property(
+    p_number INT,
+    p_street VARCHAR,
+    p_city VARCHAR,
+    p_zip_code VARCHAR
+)
 LANGUAGE plpgsql
 AS $$
-DECLARE
-    rec RECORD;
 BEGIN
-    FOR rec IN SELECT * FROM find_zip_codes_with_nulls() LOOP
-        RAISE NOTICE 'Zip code with nulls: %', rec.zip_code;
-    END LOOP;
+    DELETE FROM property
+    WHERE number = p_number
+      AND street = p_street
+      AND city = p_city
+      AND zip_code = p_zip_code;
 END;
 $$;
 
-CALL show_zip_codes_with_nulls();
+Number, street, city, and zip code match the primary key columns of the property. It can find exactly one property and delete it safely.
+
+For example to delete the property at 0 CENTER ST, Aurora, 14052
+
+CALL delete_property(0, 'CENTER ST', 'Aurora', '14052');

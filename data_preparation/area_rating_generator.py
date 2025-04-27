@@ -33,16 +33,8 @@ def area_rating_generator():
                 city = line[2]
                 postcode = line[3]
                 transportation = random.randint(1, 10)
-                if transportation >= 7:
-                    grocery = random.randint(7, 10)
-                    quiet = random.randint(1, 3)
-                elif transportation > 3 and transportation < 7:
-                    grocery = random.randint(4, 6)
-                    quiet = random.randint(4, 6)
-                else:
-                    grocery = random.randint(1, 3)
-                    quiet = random.randint(7, 10)
-
+                grocery = random.randint(1, 10)
+                quiet = random.randint(1, 10)
                 park = random.randint(1, 10)
                 restaurant = random.randint(1, 10)
 
