@@ -1,6 +1,8 @@
 import csv
-
+import os
 from database import connection, cursor
+
+os.chdir('./db_load_and_create')
 
 def load_gender_population():
     load_script = (
@@ -111,14 +113,14 @@ def load_household_income():
     connection.commit()
 
 if __name__ == '__main__':
-    # load_gender_population()
-    # load_education_population()
-    # load_age_population()
-    # load_address()
-    # load_property()
+    load_gender_population()
+    load_education_population()
+    load_age_population()
+    load_address()
+    load_property()
     load_area_rating()
-    # load_school_rating()
-    # load_household_income()
+    load_school_rating()
+    load_household_income()
 
     cursor.close()
     connection.close()
