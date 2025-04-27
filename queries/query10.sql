@@ -1,23 +1,27 @@
--- Deleting a specific property based on 4 input(number, street, city and zipcode)
-CREATE OR REPLACE PROCEDURE delete_property(
-    p_number INT,
-    p_street VARCHAR,
-    p_city VARCHAR,
-    p_zip_code VARCHAR
+CREATE OR REPLACE PROCEDURE show_income_and_education_by_zip(
+    target_zip_code VARCHAR(10)
 )
 LANGUAGE plpgsql
 AS $$
+DECLARE
+    avg_income NUMERIC;
+    education_level RECORD;
 BEGIN
-    DELETE FROM property
-    WHERE number = p_number
-      AND street = p_street
-      AND city = p_city
-      AND zip_code = p_zip_code;
+    SELECT AVG(income) INTO avg_income
+    FROM household_income
+    WHERE zip_code = target_zip_code;
+
+    SELECT *
+    INTO education_level
+    FROM education_population
+    WHERE zip_code = target_zip_code;
+
+    RAISE NOTICE 'Zip Code %', target_zip_code;
+    RAISE NOTICE 'Average Income: %', avg_income;
+    RAISE NOTICE 'Pop Less Than High School: %', education_level.pop_less_than_high_school;
+    RAISE NOTICE 'Pop Higher Than High School: %', education_level.pop_higher_than_high_school;
+    RAISE NOTICE 'Pop Higher Than Bachelor Degree: %', education_level.pop_higher_than_bachelor_degree;
+    RAISE NOTICE 'Pop Higher Than Doctorate Degree: %', education_level.pop_higher_than_doctorate_degree;
+
 END;
 $$;
-
-Number, street, city, and zip code match the primary key columns of the property. It can find exactly one property and delete it safely. 
-
-For example to delete the property at 0 CENTER ST, Aurora, 14052
-
-CALL delete_property(0, 'CENTER ST', 'Aurora', '14052');

@@ -1,30 +1,18 @@
 -- If any tuple in education_population relation contains null for any field, return that zip code
 
-CREATE OR REPLACE FUNCTION find_zip_codes_with_nulls()
-RETURNS TABLE(zip_code VARCHAR) AS $$
+CREATE OR REPLACE FUNCTION find_zip_codes_with_nulls_from_gender_population()
+RETURNS TABLE(
+    zip_code VARCHAR,
+    total_population INT,
+    male INT,
+    female INT) AS $$
 BEGIN
     RETURN QUERY
-    SELECT ep.zip_code
-    FROM education_population ep
+    SELECT ap.zip_code, ap.total_population, ap.male, ap.female
+    FROM age_population ap
     WHERE
-        ep.total_population IS NULL OR
-        ep.pop_less_than_high_school IS NULL OR
-        ep.pop_higher_than_high_school IS NULL OR
-        ep.pop_higher_than_bachelor_degree IS NULL OR
-        ep.pop_higher_than_doctorate_degree IS NULL;
+        ap.total_population IS NULL OR
+        ap.male IS NULL OR
+        ap.female IS NULL;
 END;
 $$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE PROCEDURE show_zip_codes_with_nulls()
-LANGUAGE plpgsql
-AS $$
-DECLARE
-    rec RECORD;
-BEGIN
-    FOR rec IN SELECT * FROM find_zip_codes_with_nulls() LOOP
-        RAISE NOTICE 'Zip code with nulls: %', rec.zip_code;
-    END LOOP;
-END;
-$$;
-
-CALL show_zip_codes_with_nulls();

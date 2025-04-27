@@ -16,8 +16,5 @@ BEGIN
 END;
 $$;
 
-Number, street, city, and zip code match the primary key columns of the property. It can find exactly one property and delete it safely.
-
-For example to delete the property at 0 CENTER ST, Aurora, 14052
 
 CALL delete_property(0, 'CENTER ST', 'Aurora', '14052');

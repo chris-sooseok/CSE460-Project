@@ -1,13 +1,5 @@
--- find properties in zip codes with income above average (subquery)
-SELECT * FROM property
-WHERE zip_code IN (
-   	 SELECT zip_code FROM household_income
-    	WHERE income > (
-       	 	SELECT AVG(income) FROM household_income
-       	 	)
-   	 )
---Given price range and zip code, find property information based on them
 
+--Given price range and zip code, find property information based on them
 CREATE OR REPLACE FUNCTION find_properties_with_price_and_area_rating(
     city_to_search VARCHAR(20),
     max_budget INTEGER,
